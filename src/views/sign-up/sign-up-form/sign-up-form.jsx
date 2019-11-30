@@ -61,7 +61,7 @@ class SignUpForm extends Component {
                 required: true,
                 message: 'Please input your name',
                 whitespace: true
-              },
+              }
             ]
           })(<DefaultInput placeholder="Name"/>)}
         </Form.Item>

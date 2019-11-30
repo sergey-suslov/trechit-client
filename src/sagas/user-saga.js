@@ -73,13 +73,7 @@ function* signIn({ payload: { email, password } }) {
     const { data } = yield call(axios.post, '/sign-in', {
       email, password
     })
-    const {
-      expire,
-      refreshToken
-    } = data
-    localStorage.setItem('expire', expire)
-    localStorage.setItem('refreshToken', refreshToken)
-    localStorage.setItem('refreshedAt', new Date().toISOString())
+    localStorage.setItem('token', data)
     message.success('Successfully signed in')
     yield put(signedIn())
     yield put(push('/app'))
@@ -101,16 +95,10 @@ function* signIn({ payload: { email, password } }) {
 function* refreshToken() {
   const token = localStorage.getItem('refreshToken')
   try {
-    const { data } = yield call(axios.post, '/api/user/refresh', {
+    const { data } = yield call(axios.post, '/refresh', {
       token
     })
-    const {
-      expire,
-      refreshToken
-    } = data
-    localStorage.setItem('expire', expire)
-    localStorage.setItem('refreshToken', refreshToken)
-    localStorage.setItem('refreshedAt', new Date().toISOString())
+    localStorage.setItem('token', data)
     yield put(setUserSignedIn())
   } catch(error) {
     if (error.response) {
@@ -129,11 +117,6 @@ function* refreshToken() {
     }
   }
 }
-
-function * redirect() {
-  yield put(push('/app'))
-}
-
 export function * watchSignIn() {
   yield takeLatest(SIGN_IN, signIn)
 }

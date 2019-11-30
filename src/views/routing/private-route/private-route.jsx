@@ -1,4 +1,4 @@
-import React, { Component, Children } from 'react'
+import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 
 
@@ -12,7 +12,7 @@ export default ({ component: Component, ...rest }) => {
         ) : (
           <Redirect
             to={{
-              pathname: "/sign-in",
+              pathname: '/sign-in',
               state: { from: props.location }
             }}
           />
